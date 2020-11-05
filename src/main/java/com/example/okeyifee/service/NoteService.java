@@ -1,19 +1,23 @@
 package com.example.okeyifee.service;
 
+import com.example.okeyifee.dto.NoteDto;
 import com.example.okeyifee.models.Note;
 
-import java.sql.Date;
+import java.util.List;
+import java.time.LocalDateTime;
 
 public interface NoteService{
 
-    Note findAllByTitle(String title);
-    Note findAllByCreatedAt(Date date);
-    Note findAllByContentContaining(String matcher);
-    Note findAllByTitleContains(String matcher);
-    Note findNoteByCreatedAt(Date date);
-    Note findANoteByTitleContains(String matcher);
-    Note findNoteByTitle(String title);
-    void saveNote (Note note);
+    List<Note> findAllByTitle(String title);
+    List<Note>  findAllByCreatedAt(LocalDateTime date);
+    List<Note> findAllByContentContaining(String matcher);
+    List<Note>  findAllByTitleContains(String matcher);
+    Note findNoteByCreatedAt(LocalDateTime date);
+    Note findNoteByTitleContains(String matcher);
+//    Note findNoteByTitle(String title);
+    boolean save (Note note);
     boolean deleteNoteById(Long id);
     void editNoteById(Long id);
+    Note findNoteById(Long id);
+    List<NoteDto> findNoteUsingTitle(String title);
 }
