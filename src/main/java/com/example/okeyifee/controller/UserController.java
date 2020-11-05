@@ -24,16 +24,41 @@ public class UserController{
     @PostMapping("/signup")
     public void signUp(@RequestBody User user) {
         userService.save(user);
-        System.out.println(user.getPassword());
-        System.out.println(user.getUsername());
-        System.out.println(user.getPhoneNumber());
-        System.out.println(user.getEmail());
     }
 
-    @PostMapping("/login")
-    public void login(@RequestBody User user) {
+    @PostMapping("/get_users")
+    public void findUsers(@RequestBody User user) {
+        userService.findByUsername(user.getUsername());
+    }
+
+    @PostMapping("/get_user")
+    public void findUser(@RequestBody User user) {
         userService.findByUsername(user.getUsername());
         System.out.println(user.getPassword());
         System.out.println(user.getUsername());
     }
+
+
+    @PostMapping("/delete_user")
+    public void deleteUsers(@RequestBody User user) {
+        userService.findByUsername(user.getUsername());
+        System.out.println(user.getPassword());
+        System.out.println(user.getUsername());
+    }
+
+
+    @PostMapping("/delete_users")
+    public void deleteUser(@RequestBody User user) {
+        userService.findByUsername(user.getUsername());
+        System.out.println(user.getPassword());
+        System.out.println(user.getUsername());
+    }
+
+    @PostMapping("/edit_user")
+    public void edit(@RequestBody User user) {
+        userService.findByUsername(user.getUsername());
+        System.out.println(user.getPassword());
+        System.out.println(user.getUsername());
+    }
+
 }
