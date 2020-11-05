@@ -16,6 +16,11 @@ logging:
     level:
         root : info
 
+mailgun:
+    api_key:
+    domain_name: sandboxa564d5acd27e4825ba05ebca2267b119.mailgun.org
+
+
 #server:
 #    port: 3035
 
