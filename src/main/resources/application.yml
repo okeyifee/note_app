@@ -17,7 +17,7 @@ logging:
         root : info
 
 mailgun:
-    api_key:
+    api_key: 68e2da4e54e3363478016a4b1a5d4b8b
     domain_name: sandboxa564d5acd27e4825ba05ebca2267b119.mailgun.org
 
 
