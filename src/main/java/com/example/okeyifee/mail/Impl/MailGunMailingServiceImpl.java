@@ -21,7 +21,7 @@ public class MailGunMailingServiceImpl implements MailingService{
     private String DOMAIN_NAME;
 
     /**
-     * This method handles User profile Activation mailimpl, It sends recommendation link to
+     * This method handles User profile Activation mailimpl, It sends Activation link to
      * the provided user's email address to Activate his/her Account.
      *
      * @param email
