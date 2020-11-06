@@ -24,4 +24,6 @@ public interface UserService{
     Optional<User> findByUsername(String username);
 
     boolean findByPassword(String email, String password);
+
+
 }
