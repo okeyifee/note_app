@@ -21,8 +21,8 @@ public class MailGunMailingServiceImpl implements MailingService{
     private String DOMAIN_NAME;
 
     /**
-     * This method handles hair recommendation mailimpl, It sends recommendation link to
-     * the provided user's email address to view hair profiling result.
+     * This method handles User profile Activation mailimpl, It sends recommendation link to
+     * the provided user's email address to Activate his/her Account.
      *
      * @param email
      * @param emailLink
@@ -38,7 +38,7 @@ public class MailGunMailingServiceImpl implements MailingService{
             HttpResponse<String> request = Unirest.post("https://api.mailgun.net/v3/" + DOMAIN_NAME + "/messages")
                     .basicAuth("api", API_KEY)
                     .field("from", "Admin <okeyifee@gmail.com>")
-                    .field("to", email)//TODO pass the emails in the variable
+                    .field("to", email)
                     .field("template", "hair_recommendation")
                     .field("subject", "ACCOUNT ACTIVATION LINK")
                     .field("h:X-Mailgun-Variables", String.format("{\"Click the link below to activate your account\": \"%s\"}", emailLink))
