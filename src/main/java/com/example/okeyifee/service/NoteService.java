@@ -14,7 +14,6 @@ public interface NoteService{
     List<Note>  findAllByTitleContains(String matcher);
     Note findNoteByCreatedAt(LocalDateTime date);
     Note findNoteByTitleContains(String matcher);
-//    Note findNoteByTitle(String title);
     boolean save (Note note);
     boolean deleteNoteById(Long id);
     void editNoteById(Long id);
