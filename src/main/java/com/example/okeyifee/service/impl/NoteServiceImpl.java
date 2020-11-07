@@ -110,10 +110,4 @@ public class NoteServiceImpl implements NoteService{
     public Note findNoteById(Long id) {
         return null;
     }
-
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
-    }
-
 }

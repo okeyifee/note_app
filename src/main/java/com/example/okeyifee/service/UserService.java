@@ -1,29 +1,15 @@
 package com.example.okeyifee.service;
 
+import com.example.okeyifee.dto.ProfileDTO;
 import com.example.okeyifee.models.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
-import java.util.List;
+import javax.validation.constraints.NotBlank;
 import java.util.Optional;
 
-public interface UserService{
+public interface UserService extends UserDetailsService {
 
-    User getUser(Long id);
+    void saveUserData(ProfileDTO profileData);
 
-    User getUser(String email);
-
-//    User createUser(User user);
-
-    User editUser(User user);
-
-    boolean deleteAll();
-
-    void save(User user);
-
-    Optional<User> findByEmail(String email);
-
-    Optional<User> findByUsername(String username);
-
-    boolean findByPassword(String email, String password);
-
-
+    Optional<User> retrieveUserByEmail(@NotBlank String email);
 }

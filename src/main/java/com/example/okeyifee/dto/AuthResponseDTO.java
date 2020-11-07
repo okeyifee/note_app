@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class AuthResponseDTO{
+public class AuthResponseDTO {
     private Long id;
-    private String username;
+    private String email;
     private String token;
 }

@@ -4,3 +4,4 @@ public interface MailingService{
 
     boolean sendEmailLink(String email, String link);
 }
+
