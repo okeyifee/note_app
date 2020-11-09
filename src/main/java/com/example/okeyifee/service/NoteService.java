@@ -1,22 +1,19 @@
 package com.example.okeyifee.service;
 
-import com.example.okeyifee.dto.NoteDto;
-import com.example.okeyifee.models.Note;
-
-import java.util.List;
-import java.time.LocalDateTime;
+import com.example.okeyifee.dto.NoteDTO;
+import com.example.okeyifee.payload.ApiResponse;
+import org.springframework.http.ResponseEntity;
 
 public interface NoteService{
 
-    List<Note> findAllByTitle(String title);
-    List<Note>  findAllByCreatedAt(LocalDateTime date);
-    List<Note> findAllByContentContaining(String matcher);
-    List<Note>  findAllByTitleContains(String matcher);
-    Note findNoteByCreatedAt(LocalDateTime date);
-    Note findNoteByTitleContains(String matcher);
-    boolean save (Note note);
-    boolean deleteNoteById(Long id);
-    void editNoteById(Long id);
-    Note findNoteById(Long id);
-    List<NoteDto> findNoteUsingTitle(String title);
+    ResponseEntity<ApiResponse> findAllNotes();
+    ResponseEntity<ApiResponse> findAllByCreatedAt(NoteDTO noteDTO);
+    ResponseEntity<ApiResponse> findAllByContentContaining(NoteDTO noteDTO);
+    ResponseEntity<ApiResponse> findAllByTitleContains(NoteDTO noteDTO);
+    ResponseEntity<ApiResponse> save(NoteDTO noteDTO);
+    ResponseEntity<ApiResponse> deleteNoteById(NoteDTO noteDTO);
+    ResponseEntity<ApiResponse> editNoteById(NoteDTO noteDTO);
+    ResponseEntity<ApiResponse> findNoteById(NoteDTO noteDTO);
+    ResponseEntity<ApiResponse> findNoteUsingTitle(NoteDTO noteDTO);
+    ResponseEntity<ApiResponse> deleteNoteByTitle(NoteDTO noteDto);
 }
