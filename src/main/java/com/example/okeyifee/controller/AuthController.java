@@ -1,11 +1,9 @@
 package com.example.okeyifee.controller;
 
-//import com.decagon.kindredhair.dto.AuthRequestDTO;
-//import com.decagon.kindredhair.dto.ProfileDTO;
-//import com.decagon.kindredhair.payload.ApiResponse;
-//import com.decagon.kindredhair.service.AuthService;
+
 import com.example.okeyifee.dto.AuthRequestDTO;
 import com.example.okeyifee.dto.ProfileDTO;
+import com.example.okeyifee.dto.UserDTO;
 import com.example.okeyifee.payload.ApiResponse;
 import com.example.okeyifee.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +33,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse> createAuthenticationToken(@Valid @RequestBody AuthRequestDTO authenticationRequest) {
+    public ResponseEntity<ApiResponse> createAuthenticationToken(@Valid @RequestBody UserDTO authenticationRequest) {
         return authService.login(authenticationRequest);
     }
 }

@@ -1,16 +1,5 @@
 package com.example.okeyifee.service.impl;
 
-//import com.decagon.kindredhair.dto.AuthRequestDTO;
-//import com.decagon.kindredhair.dto.AuthResponseDTO;
-//import com.decagon.kindredhair.dto.ProfileDTO;
-//import com.decagon.kindredhair.dto.UserDTO;
-//import com.decagon.kindredhair.models.User;
-//import com.decagon.kindredhair.payload.ApiResponse;
-//import com.decagon.kindredhair.security.JwtTokenProvider;
-//import com.decagon.kindredhair.service.AuthService;
-//import com.decagon.kindredhair.service.HairProfileService;
-//import com.decagon.kindredhair.service.UserService;
-import com.example.okeyifee.dto.AuthRequestDTO;
 import com.example.okeyifee.dto.AuthResponseDTO;
 import com.example.okeyifee.dto.ProfileDTO;
 import com.example.okeyifee.dto.UserDTO;
@@ -27,6 +16,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import javax.validation.Valid;
 
 import static com.example.okeyifee.utils.BuildResponse.buildResponse;
 import static org.springframework.http.HttpStatus.OK;
@@ -70,7 +61,10 @@ public class AuthServiceImpl implements AuthService{
     }
 
     @Override
-    public ResponseEntity<ApiResponse> login(AuthRequestDTO authenticationRequest) {
+    public ResponseEntity<ApiResponse> login(@Valid UserDTO authenticationRequest) {
+        System.out.println(authenticationRequest);
+        System.out.println(authenticationRequest.getUsername());
+        System.out.println(authenticationRequest.getPassword());
         try{
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(

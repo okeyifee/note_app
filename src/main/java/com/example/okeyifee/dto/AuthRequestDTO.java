@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthRequestDTO {
-    @NotBlank(message = "email should not be blank")
+    @NotBlank(message = "username should not be blank")
     private String username;
 
     @NotBlank(message = "password should not be blank")
