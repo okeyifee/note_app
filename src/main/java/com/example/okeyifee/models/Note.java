@@ -15,25 +15,22 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "notes")
-public class Note{
+public class Note extends BaseModel{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     private String title;
+
+    public  String subtitle;
 
     @NotBlank
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    @Column(nullable = false, updatable = false)
-    @CreatedDate
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
+    @NotBlank
+    public  String category;
 
     @Column(nullable = false)
     boolean deleted;
