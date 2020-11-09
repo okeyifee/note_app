@@ -23,10 +23,10 @@ public class ProfileController {
      * Method to send Recommendation link
      * @return ResponseEntity<>(response, HttpStatus)
      */
-    @PostMapping("/recommend")
+    @PostMapping("/Activate")
     public ResponseEntity<ApiResponse> sendActivationLink(
             @Valid @RequestBody ActivationLinkDTO activationLinkDTO
         ) {
-        return profileService.createRecommendationLink(activationLinkDTO);
+        return profileService.createActivationLink(activationLinkDTO);
     }
 }

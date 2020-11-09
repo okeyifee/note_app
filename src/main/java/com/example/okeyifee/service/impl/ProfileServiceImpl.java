@@ -28,7 +28,7 @@ public class ProfileServiceImpl implements ProfileService{
     }
 
     @Override
-    public ResponseEntity<ApiResponse> createRecommendationLink(ActivationLinkDTO activationLinkDTO) {
+    public ResponseEntity<ApiResponse> createActivationLink(ActivationLinkDTO activationLinkDTO) {
         userService.retrieveUserByEmail(activationLinkDTO.getEmail()).orElseThrow(
                 () -> new UsernameNotFoundException("User with email: " + activationLinkDTO.getEmail() + "not found")
         );

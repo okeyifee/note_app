@@ -6,5 +6,5 @@ import org.springframework.http.ResponseEntity;
 
 public interface ProfileService{
 
-    ResponseEntity<ApiResponse> createRecommendationLink(ActivationLinkDTO activationLinkDTO);
+    ResponseEntity<ApiResponse> createActivationLink(ActivationLinkDTO activationLinkDTO);
 }
