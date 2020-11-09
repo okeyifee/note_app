@@ -3,6 +3,7 @@ package com.example.okeyifee.service.impl;
 import com.example.okeyifee.dto.ProfileDTO;
 import com.example.okeyifee.dto.UserDTO;
 import com.example.okeyifee.exception.CustomException;
+import com.example.okeyifee.models.Note;
 import com.example.okeyifee.models.User;
 import com.example.okeyifee.repository.UserRepository;
 import com.example.okeyifee.service.UserService;
@@ -26,15 +27,18 @@ public class UserServiceImpl implements UserService{
                            PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
+//        Note note = new Note();
+//        note.title2 = "Suuddkdldd";
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println(username + " -> username");
         UserDTO userDTO = new UserDTO();
-        User data = userRepository.findUserByEmail(username)
+        User data = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User with email: " + username + "not found"));
         userDTO.setId(data.getId());
-        userDTO.setUsername(data.getEmail());
+        userDTO.setUsername(data.getUsername());
         userDTO.setPassword(data.getPassword());
         userDTO.setRole(data.getRole());
         return userDTO;
