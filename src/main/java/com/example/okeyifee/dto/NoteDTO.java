@@ -2,20 +2,22 @@ package com.example.okeyifee.dto;
 
 import lombok.*;
 
-import javax.validation.constraints.NotNull;
-
 @Data
 @Getter
 @Setter
-public class NoteDto{
+public class NoteDTO{
 
-    @NotNull
+    private Long id;
+
     private String title;
 
-    @NotNull
     private String content;
 
-    @NotNull
+    public  String category;
+
     private String createdAt;
 
+    private boolean deleted;
+
+    public  String subtitle;
 }
