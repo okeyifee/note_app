@@ -1,0 +1,14 @@
+spring:
+  main:
+    jpa:
+      generate-ddl: true
+      properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        ddl-auto: update
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://${DB_HOST:localhost}:5432/notedb}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:Aldana123456.}
+    initialization-mode: always
+    driverClassName: org.postgresql.Driver
