@@ -1,26 +1,18 @@
 package com.example.okeyifee.models;
 
 import com.example.okeyifee.utils.Role;
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.DynamicUpdate;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
 import static com.example.okeyifee.utils.Role.ROLE_USER;
 
-@Entity
-@Table(name = "user")
+@EqualsAndHashCode(callSuper = true)
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@DynamicUpdate
+@Entity(name = "users")
 public class User extends BaseModel  {
-
-    @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    private Long id;
 
     @Column(name = "username", unique = true)
     private String username;
