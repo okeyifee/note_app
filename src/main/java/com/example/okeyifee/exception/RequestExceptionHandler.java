@@ -14,16 +14,37 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.validation.ConstraintViolationException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 
 /**
  * RequestExceptionHandler
  */
 @ControllerAdvice
 public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
+
     @ExceptionHandler(com.example.okeyifee.exception.CustomException.class)
     public ResponseEntity<Object> handleCustomException(com.example.okeyifee.exception.CustomException ce) {
-        ApiResponse<?> ar = new ApiResponse<>(ce.getStatus());
-        ar.setError(ce.getMessage());
+//        ApiResponse<?> ar = new ApiResponse<>(ce.getStatus());
+        ApiResponse<?> ar = new ApiResponse<>();
+
+//        ar.setError(ce.getMessage());
+//        ar.setMessage(ce.getCause().getMessage());
+        return buildResponseEntity(ar);
+    }
+
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    public ResponseEntity<Object> handleSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException scv) {
+        ApiResponse<?> ar = new ApiResponse<>(HttpStatus.UNPROCESSABLE_ENTITY);
+        ar.setError(scv.getMessage());
+        return buildResponseEntity(ar);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException scv) {
+        ApiResponse<?> ar = new ApiResponse<>(HttpStatus.UNPROCESSABLE_ENTITY);
+        ar.setError(scv.getMostSpecificCause().getMessage());
+        ar.setMessage(scv.getRootCause().getMessage());
         return buildResponseEntity(ar);
     }
 
@@ -34,6 +55,14 @@ public class RequestExceptionHandler extends ResponseEntityExceptionHandler {
      	ar.setError("Validation Error");
      	return buildResponseEntity(ar);
      }
+
+    @ExceptionHandler(java.lang.Exception.class)
+    public ResponseEntity<Object> handlejavaLangException(java.lang.Exception lan) {
+        ApiResponse<?> ar = new ApiResponse<>(HttpStatus.BAD_REQUEST);
+        ar.setError(lan.getLocalizedMessage());
+        return buildResponseEntity(ar);
+    }
+
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException iae) {
