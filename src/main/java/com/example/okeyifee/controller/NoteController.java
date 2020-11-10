@@ -31,7 +31,7 @@ public class NoteController{
     }
 
     @GetMapping("/retrieve_All")
-    public ResponseEntity<ApiResponse> retrieveAllNotes() { /////////////
+    public ResponseEntity<ApiResponse> retrieveAllNotes() {
         return noteService.findAllNotes();
     }
 
@@ -40,12 +40,12 @@ public class NoteController{
         return noteService.findNoteById(noteDto);
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/edit/id")
     public ResponseEntity<ApiResponse> editNoteById(@Valid @RequestBody NoteDTO noteDto) {
         return noteService.editNoteById(noteDto);
     }
 
-    @GetMapping("/delete/{id}")
+    @GetMapping("/delete/id")
     public ResponseEntity<ApiResponse> deleteNoteById(@Valid @RequestBody NoteDTO noteDto) {
         return noteService.deleteNoteById(noteDto);
     }
@@ -60,7 +60,7 @@ public class NoteController{
         return noteService.findAllByCreatedAt(noteDto);
     }
 
-    @GetMapping("/retrieve/content")
+    @GetMapping("/retrieve/content-contains")
     public ResponseEntity<ApiResponse> findNoteByContentContaining(@Valid @RequestBody NoteDTO noteDto) {
         return noteService.findAllByContentContaining(noteDto);
     }
