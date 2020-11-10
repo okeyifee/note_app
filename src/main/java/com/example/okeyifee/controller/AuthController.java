@@ -1,7 +1,5 @@
 package com.example.okeyifee.controller;
 
-
-import com.example.okeyifee.dto.AuthRequestDTO;
 import com.example.okeyifee.dto.ProfileDTO;
 import com.example.okeyifee.dto.UserDTO;
 import com.example.okeyifee.payload.ApiResponse;
