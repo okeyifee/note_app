@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,27 +24,22 @@ public class NoteServiceImpl implements NoteService{
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     NoteRepository noteRepository;
     ModelMapper mapper;
-    Note new_Note = new Note();
-    NoteDTO newNote = new NoteDTO();
-    List<NoteDTO> retrievedNote = new ArrayList<>();
-    ApiResponse<List<NoteDTO>> response = new ApiResponse<>();
 
     @Autowired
-    public NoteServiceImpl(NoteRepository noteRepository) {
+    public NoteServiceImpl(NoteRepository noteRepository, ModelMapper mapper) {
         this.noteRepository = noteRepository;
+        this.mapper = mapper;
     }
 
     @Override
     public ResponseEntity<ApiResponse> findAllNotes() {
 
+        List<NoteDTO> retrievedNote = new ArrayList<>();
+        ApiResponse<List<NoteDTO>> response = new ApiResponse<>();
         List<Note> answer = noteRepository.findAllNotes();
         if (answer.size() > 0){
             answer.forEach((Note a) -> {
-                newNote.setTitle(a.getTitle());
-                newNote.setCreatedAt(String.format(String.valueOf(a.getCreatedAt()), formatter));
-                newNote.setContent(a.getContent());
-                newNote.setCategory(a.getCategory());
-                newNote.setSubtitle(a.getSubtitle());
+                NoteDTO newNote = mapper.map(a, NoteDTO.class);
                 retrievedNote.add(newNote);
             });
             response.setData(retrievedNote);
@@ -61,19 +55,29 @@ public class NoteServiceImpl implements NoteService{
     @Override
     public ResponseEntity<ApiResponse> findAllByCreatedAt(NoteDTO noteDTO) {
         Timestamp createdAt = Timestamp.valueOf(noteDTO.getCreatedAt());
-        List<Note> answer = noteRepository.findAllByCreatedAt(createdAt);
+        List<NoteDTO> retrievedNote = new ArrayList<>();
+        ApiResponse<List<NoteDTO>> response = new ApiResponse<>();
+        List<Note> answer = noteRepository.findAllNotes();
         if (answer.size() > 0){
             answer.forEach((Note a) -> {
-                newNote.setTitle(a.getTitle());
-                newNote.setCreatedAt(String.format(String.valueOf(a.getCreatedAt()), formatter));
-                newNote.setContent(a.getContent());
-                newNote.setCategory(a.getCategory());
-                newNote.setSubtitle(a.getSubtitle());
-                retrievedNote.add(newNote);
+                String date = a.getCreatedAt().toString();
+                System.out.println(date);
+                System.out.println(createdAt.toString().substring(0,10));
+                if (date.contains(createdAt.toString().substring(0,10))){
+                    NoteDTO newNote = mapper.map(a, NoteDTO.class);
+                    retrievedNote.add(newNote);
+                } else {
+
+                }
             });
-            response.setData(retrievedNote);
-            response.setMessage("Note successfully retrieved");
-            response.setStatus(HttpStatus.OK);
+            if (retrievedNote.size() > 0){
+                response.setData(retrievedNote);
+                response.setMessage("Note successfully retrieved");
+                response.setStatus(HttpStatus.OK);
+            } else {
+                response.setMessage("No Note with Creation Date ' " + createdAt + "' Found For User");
+                response.setStatus(HttpStatus.NOT_FOUND);
+            }
         } else {
             response.setMessage("No Note with Creation Date ' " + createdAt + "' Found For User");
             response.setStatus(HttpStatus.NOT_FOUND);
@@ -81,22 +85,22 @@ public class NoteServiceImpl implements NoteService{
         return buildResponse(response);
     }
 
+
     @Override
     public ResponseEntity<ApiResponse> findAllByContentContaining(NoteDTO noteDTO) {
         String content = noteDTO.getContent();
         List<Note> answer = noteRepository.findAllNotes();
+        List<NoteDTO> retrievedNote = new ArrayList<>();
+        ApiResponse<List<NoteDTO>> response = new ApiResponse<>();
 
-        if (answer.size() > 0){
+        System.out.println(answer);
+
+        if (answer.size() > 0) {
             answer.forEach((Note a) -> {
                 if (a.getContent().contains(content)){
-                    newNote.setTitle(a.getTitle());
-                    newNote.setCreatedAt(String.format(String.valueOf(a.getCreatedAt()), formatter));
-                    newNote.setContent(a.getContent());
-                    newNote.setCategory(a.getCategory());
-                    newNote.setSubtitle(a.getSubtitle());
+                    NoteDTO newNote = mapper.map(a, NoteDTO.class);
                     retrievedNote.add(newNote);
                 }
-
             });
             response.setData(retrievedNote);
             response.setMessage("Note successfully retrieved");
@@ -111,18 +115,15 @@ public class NoteServiceImpl implements NoteService{
     @Override
     public ResponseEntity<ApiResponse> findAllByTitleContains(NoteDTO noteDTO) {
         String title = noteDTO.getTitle();
+        List<NoteDTO> retrievedNote = new ArrayList<>();
+        ApiResponse<List<NoteDTO>> response = new ApiResponse<>();
         List<Note> answer = noteRepository.findAllNotes();
 
         if (answer.size() > 0){
             answer.forEach((Note a) -> {
                 if (a.getTitle().contains(title)){
-                    NoteDTO n = new NoteDTO();
-                    n.setTitle(a.getTitle());
-                    n.setCreatedAt(String.format(String.valueOf(a.getCreatedAt()), formatter));
-                    n.setContent(a.getContent());
-                    n.setCategory(a.getCategory());
-                    n.setSubtitle(a.getSubtitle());
-                    retrievedNote.add(n);
+                    NoteDTO newNote = mapper.map(a, NoteDTO.class);
+                    retrievedNote.add(newNote);
                 }
 
             });
@@ -138,13 +139,8 @@ public class NoteServiceImpl implements NoteService{
 
     @Override
     public ResponseEntity<ApiResponse> save(NoteDTO noteDTO) {
-
-        new_Note.setTitle(noteDTO.getTitle());
-        new_Note.setContent(noteDTO.getContent());
-        new_Note.setCategory(noteDTO.getCategory());
+        Note new_Note = mapper.map(noteDTO, Note.class);
         new_Note.setDeleted(false);
-        new_Note.setSubtitle(noteDTO.getSubtitle());
-        new_Note.setUpdatedAt(null);
         noteRepository.save(new_Note);
         ApiResponse<String> response = new ApiResponse<>(HttpStatus.CREATED);
         response.setMessage("Note Registration Successful");
@@ -154,32 +150,39 @@ public class NoteServiceImpl implements NoteService{
     @Override
     public ResponseEntity<ApiResponse> deleteNoteById(NoteDTO noteDTO) {
         Long id = noteDTO.getId();
+        ApiResponse<List<NoteDTO>> response = new ApiResponse<>();
         Note answer = noteRepository.findNoteById(id);
 
-        new_Note.setTitle(answer.getTitle());
-        new_Note.setId(answer.getId());
-        new_Note.setContent(answer.getContent());
-        new_Note.setCategory(answer.getCategory());
-        new_Note.setDeleted(true);
-        new_Note.setSubtitle(answer.getSubtitle());
-        noteRepository.save(new_Note);
-        response.setMessage("Note Deleted");
+        if (answer != null) {
+            Note new_Note = mapper.map(answer, Note.class);
+            new_Note.setDeleted(true);
+            noteRepository.save(new_Note);
+            response.setMessage("Note Deleted");
+            response.setStatus(HttpStatus.OK);
+
+        } else {
+            response.setMessage("NO NOTE FOUND");
+            response.setStatus(HttpStatus.NOT_FOUND);
+        }
         return buildResponse(response);
     }
 
     @Override
     public ResponseEntity<ApiResponse> editNoteById(NoteDTO noteDTO) {
         Long id = noteDTO.getId();
+//        Note new_Note = new Note();
+        ApiResponse<List<NoteDTO>> response = new ApiResponse<>();
         Note answer = noteRepository.findNoteById(id);
 
-        new_Note.setId(answer.getId());
-        new_Note.setTitle(answer.getTitle());
-        new_Note.setContent(answer.getContent());
-        new_Note.setCategory(answer.getCategory());
-        new_Note.setDeleted(false);
-        new_Note.setSubtitle(answer.getSubtitle());
-        new_Note.setCreatedAt(answer.getCreatedAt());
-        new_Note.setUpdatedAt(Timestamp.valueOf((LocalDateTime.now())));
+        Note new_Note = mapper.map(answer, Note.class);
+//        new_Note.setId(answer.getId());
+//        new_Note.setTitle(answer.getTitle());
+//        new_Note.setContent(answer.getContent());
+//        new_Note.setCategory(answer.getCategory());
+//        new_Note.setDeleted(false);
+//        new_Note.setSubtitle(answer.getSubtitle());
+//        new_Note.setCreatedAt(answer.getCreatedAt());
+//        new_Note.setUpdatedAt(Timestamp.valueOf((LocalDateTime.now())));
         noteRepository.save(new_Note);
         response.setMessage("Note Successfully Edited");
         return buildResponse(response);
@@ -187,19 +190,14 @@ public class NoteServiceImpl implements NoteService{
 
     @Override
     public ResponseEntity<ApiResponse> findNoteById(NoteDTO noteDTO) {
-        String title = noteDTO.getTitle();
-        List<Note> answer = noteRepository.findNoteByTitle(title);
+        Long id = noteDTO.getId();
+        List<NoteDTO> retrievedNote = new ArrayList<>();
+        ApiResponse<List<NoteDTO>> response = new ApiResponse<>();
+        Note answer = noteRepository.findById(id).orElse(null);
 
-        if (answer.size() > 0){
-            answer.forEach((Note a) -> {
-                NoteDTO n = new NoteDTO();
-                n.setTitle(a.getTitle());
-                n.setCreatedAt(String.format(String.valueOf(a.getCreatedAt()), formatter));
-                n.setContent(a.getContent());
-                n.setSubtitle(a.getSubtitle());
-                n.setCategory(a.getCategory());
-                retrievedNote.add(n);
-            });
+        if (answer != null){
+            NoteDTO newNote = mapper.map(answer, NoteDTO.class);
+            retrievedNote.add(newNote);
             response.setData(retrievedNote);
             response.setMessage("Note successfully retrieved");
             response.setStatus(HttpStatus.OK);
@@ -214,6 +212,9 @@ public class NoteServiceImpl implements NoteService{
     public ResponseEntity<ApiResponse> findNoteUsingTitle(NoteDTO noteDTO) {
         String title = noteDTO.getTitle();
         List<Note> answer = noteRepository.findNoteByTitle(title);
+        NoteDTO newNote = new NoteDTO();
+        List<NoteDTO> retrievedNote = new ArrayList<>();
+        ApiResponse<List<NoteDTO>> response = new ApiResponse<>();
 
         if (answer.size() > 0){
             answer.forEach((Note a) -> {
@@ -237,6 +238,8 @@ public class NoteServiceImpl implements NoteService{
     @Override
     public ResponseEntity<ApiResponse> deleteNoteByTitle(NoteDTO noteDTO) {
         String title = noteDTO.getTitle();
+        Note new_Note = new Note();
+        ApiResponse<List<NoteDTO>> response = new ApiResponse<>();
         List<Note> answer = noteRepository.findNoteByTitle(title);
 
         if (answer.size() > 0){
