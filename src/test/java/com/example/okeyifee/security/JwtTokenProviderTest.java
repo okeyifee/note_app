@@ -1,8 +1,7 @@
-package com.example.okeyifee;
+package com.example.okeyifee.security;
 
 import com.example.okeyifee.dto.UserDTO;
 import com.example.okeyifee.exception.CustomException;
-import com.example.okeyifee.security.JwtTokenProvider;
 import com.example.okeyifee.service.impl.UserServiceImpl;
 import com.example.okeyifee.utils.Role;
 import io.jsonwebtoken.ExpiredJwtException;
