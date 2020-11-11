@@ -35,19 +35,19 @@ public class NoteController{
         return noteService.findAllNotes();
     }
 
-    @GetMapping("/retrieve/id")
-    public ResponseEntity<ApiResponse> retrieveNoteById(@Valid @RequestBody NoteDTO noteDto) {
-        return noteService.findNoteById(noteDto);
+    @GetMapping("/retrieve/{id}")
+    public ResponseEntity<ApiResponse> retrieveNoteById(@PathVariable Long id) {
+        return noteService.findNoteById(id);
     }
 
-    @GetMapping("/edit/id")
-    public ResponseEntity<ApiResponse> editNoteById(@Valid @RequestBody NoteDTO noteDto) {
-        return noteService.editNoteById(noteDto);
+    @PostMapping("/edit/{id}")
+    public ResponseEntity<ApiResponse> editNoteById( @PathVariable Long id, @Valid @RequestBody NoteDTO noteDto) {
+        return noteService.editNoteById(id, noteDto);
     }
 
-    @GetMapping("/delete/id")
-    public ResponseEntity<ApiResponse> deleteNoteById(@Valid @RequestBody NoteDTO noteDto) {
-        return noteService.deleteNoteById(noteDto);
+    @GetMapping("/delete/{id}")
+    public ResponseEntity<ApiResponse> deleteNoteById(@PathVariable Long id) {
+        return noteService.deleteNoteById(id);
     }
 
     @GetMapping("/delete/title")
