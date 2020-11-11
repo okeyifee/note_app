@@ -26,7 +26,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<ApiResponse> createHairProfile(@Valid @RequestBody ProfileDTO profileData) {
+    public ResponseEntity<ApiResponse> createAccount(@Valid @RequestBody ProfileDTO profileData) {
         return authService.createAccount(profileData);
     }
 
