@@ -89,7 +89,6 @@ class AuthControllerTest {
                 .andExpect(MockMvcResultMatchers
                         .jsonPath("$.message")
                         .value("Valid token"));
-
     }
 
     @Test
@@ -109,7 +108,6 @@ class AuthControllerTest {
                 .andExpect(MockMvcResultMatchers
                         .jsonPath("$.error")
                         .value("Email address isn't registered yet"));
-
     }
 
     @Test
@@ -131,8 +129,6 @@ class AuthControllerTest {
                         .jsonPath("$.message")
                         .value("User Registration Successful"));
     }
-
-
 
     @Test
     void testCreateAuthenticationToken() throws Exception {
