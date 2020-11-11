@@ -47,6 +47,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         web.ignoring()
                 .antMatchers("/auth/**")
                 .antMatchers(HttpMethod.POST, "/Activate")
+                .antMatchers(HttpMethod.GET, "/notes/serial")
                 .antMatchers("/v2/api-docs")
                 .antMatchers("/configuration/ui")
                 .antMatchers("/swagger-resources/**")
