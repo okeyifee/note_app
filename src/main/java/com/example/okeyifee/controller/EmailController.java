@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/auth")
+//@RequestMapping("/auth")
 public class EmailController{
 
     UserEmailService userEmailService;
@@ -27,7 +27,7 @@ public class EmailController{
      * @return ResponseEntity<>(response, HttpStatus)
      */
     @PostMapping("/activate")
-    public ResponseEntity<ApiResponse> sendRecommendationLink(
+    public ResponseEntity<ApiResponse> sendActivationLink(
             @Valid @RequestBody EmailLinkDTO emailLinkDTO
         ) {
         return userEmailService.sendEmailLink(emailLinkDTO);
