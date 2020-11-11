@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -148,14 +149,14 @@ public class NoteServiceImpl implements NoteService{
     }
 
     @Override
-    public ResponseEntity<ApiResponse> deleteNoteById(NoteDTO noteDTO) {
-        Long id = noteDTO.getId();
+    public ResponseEntity<ApiResponse> deleteNoteById(Long id) {
         ApiResponse<List<NoteDTO>> response = new ApiResponse<>();
         Note answer = noteRepository.findNoteById(id);
 
         if (answer != null) {
             Note new_Note = mapper.map(answer, Note.class);
             new_Note.setDeleted(true);
+            new_Note.setDeletedAt(Timestamp.valueOf(LocalDateTime.now()));
             noteRepository.save(new_Note);
             response.setMessage("Note Deleted");
             response.setStatus(HttpStatus.OK);
@@ -168,29 +169,26 @@ public class NoteServiceImpl implements NoteService{
     }
 
     @Override
-    public ResponseEntity<ApiResponse> editNoteById(NoteDTO noteDTO) {
-        Long id = noteDTO.getId();
-//        Note new_Note = new Note();
+    public ResponseEntity<ApiResponse> editNoteById(Long id, NoteDTO noteDTO) {
+        Note new_Note = new Note();
+        System.out.println("NoteDTO: " + noteDTO);
         ApiResponse<List<NoteDTO>> response = new ApiResponse<>();
         Note answer = noteRepository.findNoteById(id);
-
-        Note new_Note = mapper.map(answer, Note.class);
-//        new_Note.setId(answer.getId());
-//        new_Note.setTitle(answer.getTitle());
-//        new_Note.setContent(answer.getContent());
-//        new_Note.setCategory(answer.getCategory());
-//        new_Note.setDeleted(false);
-//        new_Note.setSubtitle(answer.getSubtitle());
-//        new_Note.setCreatedAt(answer.getCreatedAt());
-//        new_Note.setUpdatedAt(Timestamp.valueOf((LocalDateTime.now())));
+        new_Note.setTitle(noteDTO.getTitle());
+        new_Note.setContent(noteDTO.getContent());
+        new_Note.setCategory(noteDTO.getCategory());
+        new_Note.setDeleted(false);
+        new_Note.setSubtitle(noteDTO.getSubtitle());
+        new_Note.setId(answer.getId());
+        new_Note.setCreatedAt(answer.getCreatedAt());
         noteRepository.save(new_Note);
         response.setMessage("Note Successfully Edited");
+        response.setStatus(HttpStatus.OK);
         return buildResponse(response);
     }
 
     @Override
-    public ResponseEntity<ApiResponse> findNoteById(NoteDTO noteDTO) {
-        Long id = noteDTO.getId();
+    public ResponseEntity<ApiResponse> findNoteById(Long id) {
         List<NoteDTO> retrievedNote = new ArrayList<>();
         ApiResponse<List<NoteDTO>> response = new ApiResponse<>();
         Note answer = noteRepository.findById(id).orElse(null);
@@ -251,6 +249,7 @@ public class NoteServiceImpl implements NoteService{
                 new_Note.setSubtitle(a.getSubtitle());
                 new_Note.setId(a.getId());
                 new_Note.setDeleted(true);
+                new_Note.setDeletedAt(Timestamp.valueOf(LocalDateTime.now()));
                 noteRepository.save(new_Note);
             });
             response.setMessage("Note Deleted");
