@@ -11,9 +11,9 @@ public interface NoteService{
     ResponseEntity<ApiResponse> findAllByContentContaining(NoteDTO noteDTO);
     ResponseEntity<ApiResponse> findAllByTitleContains(NoteDTO noteDTO);
     ResponseEntity<ApiResponse> save(NoteDTO noteDTO);
-    ResponseEntity<ApiResponse> deleteNoteById(NoteDTO noteDTO);
-    ResponseEntity<ApiResponse> editNoteById(NoteDTO noteDTO);
-    ResponseEntity<ApiResponse> findNoteById(NoteDTO noteDTO);
+    ResponseEntity<ApiResponse> deleteNoteById(Long id);
+    ResponseEntity<ApiResponse> editNoteById(Long id, NoteDTO noteDTO);
+    ResponseEntity<ApiResponse> findNoteById(Long id);
     ResponseEntity<ApiResponse> findNoteUsingTitle(NoteDTO noteDTO);
     ResponseEntity<ApiResponse> deleteNoteByTitle(NoteDTO noteDto);
 }
