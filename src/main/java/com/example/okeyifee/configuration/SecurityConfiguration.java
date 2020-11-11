@@ -46,7 +46,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
                 .antMatchers("/auth/**")
-                .antMatchers(HttpMethod.POST, "/recommend")
+                .antMatchers(HttpMethod.POST, "/Activate")
                 .antMatchers("/v2/api-docs")
                 .antMatchers("/configuration/ui")
                 .antMatchers("/swagger-resources/**")
