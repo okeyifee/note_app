@@ -5,7 +5,7 @@ services:
   # Database Service (PostgresSQL)
   db:
     image: postgres
-    container_name: "notedb"
+    container_name: "notesdb"
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
