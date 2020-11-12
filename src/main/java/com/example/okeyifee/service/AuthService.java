@@ -10,7 +10,7 @@ import javax.validation.Valid;
 public interface AuthService{
     ResponseEntity<ApiResponse> verifyToken(String token);
 
-  ResponseEntity<ApiResponse> createAccount(ProfileDTO profileData);
+    ResponseEntity<ApiResponse> createAccount(ProfileDTO profileData);
 
     ResponseEntity<ApiResponse> login(@Valid UserDTO authenticationRequest);
 }
