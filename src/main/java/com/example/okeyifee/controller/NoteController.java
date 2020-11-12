@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.example.okeyifee.utils.BuildResponse.buildResponse;
 
@@ -53,7 +51,7 @@ public class NoteController{
     }
 
     @PostMapping("/edit/{id}")
-    public ResponseEntity<ApiResponse> editNoteById( @PathVariable Long id, @Valid @RequestBody NoteDTO noteDto) {
+    public ResponseEntity<ApiResponse> editNoteById(@PathVariable Long id, @Valid @RequestBody NoteDTO noteDto) {
         return noteService.editNoteById(id, noteDto);
     }
 
@@ -83,24 +81,8 @@ public class NoteController{
     }
 
     @GetMapping("/serial")
-    public ResponseEntity<ApiResponse> serial()  {
-
-        List<Note> products = noteRepository.findAllNotes();
-        ApiResponse<List<Note>> response = new ApiResponse<>();
-
-        try {
-            Serializer.serialize(products, "my_notes.data");
-            response.setData(products);
-            response.setMessage("success");
-            response.setStatus(HttpStatus.OK);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            response.setStatus(HttpStatus.NOT_FOUND);
-            response.setMessage("Not found");
-
-        }
-        return buildResponse(response);
+    public ResponseEntity<ApiResponse> serial(@Valid @RequestBody NoteDTO noteDto) {
+        return noteService.serial(noteDto);
     }
 }
 

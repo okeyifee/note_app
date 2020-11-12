@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 public interface NoteService{
 
     ResponseEntity<ApiResponse> findAllNotes();
+    ResponseEntity<ApiResponse> serial(NoteDTO noteDTO);
     ResponseEntity<ApiResponse> findAllByCreatedAt(NoteDTO noteDTO);
     ResponseEntity<ApiResponse> findAllByContentContaining(NoteDTO noteDTO);
     ResponseEntity<ApiResponse> findAllByTitleContains(NoteDTO noteDTO);

@@ -5,17 +5,20 @@ import com.example.okeyifee.models.Note;
 import com.example.okeyifee.payload.ApiResponse;
 import com.example.okeyifee.repository.NoteRepository;
 import com.example.okeyifee.service.NoteService;
+import com.example.okeyifee.utils.Serializer;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.example.okeyifee.utils.BuildResponse.buildResponse;
 
@@ -49,6 +52,39 @@ public class NoteServiceImpl implements NoteService{
         } else {
             response.setMessage("No Note Found For User");
             response.setStatus(HttpStatus.NOT_FOUND);
+        }
+        return buildResponse(response);
+    }
+
+    @Override
+    public ResponseEntity<ApiResponse> serial(NoteDTO noteDTO)  {
+
+        List<Note> s = new ArrayList<>();
+        Note answer = noteRepository.findNoteById(noteDTO.getId());
+        s.add(answer);
+//        List<Note> answer2 = noteRepository.findNoteByTitle(noteDTO.getTitle());
+//        List<Note> answer3 = noteRepository.findAllNotes();
+//        System.out.println("retrieved1: " + s);
+//        System.out.println("retrieved2: " + answer2);
+//        System.out.println("retrieved3: " + answer3);
+        ApiResponse<List<Note>> response = new ApiResponse<>();
+
+        try {
+            Serializer.serialize(answer, "my_notes_id.data");
+//            Serializer.serialize(answer2, "my_notes_title.data");
+//            Serializer.serialize(answer3, "my_notes_all.data");
+//            answer.add(answer1);
+//            answer.add(answer2);
+//            answer.add(answer3);
+//            response.setData(s);
+            response.setMessage("success");
+            response.setStatus(HttpStatus.OK);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            response.setStatus(HttpStatus.NOT_FOUND);
+            response.setMessage("Not found");
+
         }
         return buildResponse(response);
     }
