@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-//@ActiveProfiles("test")
+@ActiveProfiles("test")
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 @SpringBootTest
 @AutoConfigureMockMvc

@@ -30,7 +30,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-//@ActiveProfiles("test")
+@ActiveProfiles("test")
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 @SpringBootTest
 class AuthServiceTest {
